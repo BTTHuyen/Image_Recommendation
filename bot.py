@@ -46,7 +46,7 @@ class MyBot(ActivityHandler):
             if result:
                 await turn_context.send_activity(
                     MessageFactory.text(
-                        f"Thank you for your information. Here are the result images:"))
+                        f"Here are some recommended images for you."))
                 for url in result:
                     print(url)
                     await self._handle_outgoing_attachment(url,turn_context)
@@ -66,9 +66,7 @@ class MyBot(ActivityHandler):
             if member.id != turn_context.activity.recipient.id:
                 await turn_context.send_activity(
                     MessageFactory.text(
-                        f"Hi, Welcome to Image Recommendation Bot. "
-                        f"Help you find the images with word."
-                        f"Please let me know some information."      
+                        f"Hi, This is AIRS-iBot."     
                     )
                 )
                 self.user_area = ""
@@ -162,8 +160,8 @@ class MyBot(ActivityHandler):
         :return: Attachment
         """
         return Attachment(
-            name="architecture-resize.png",
-            content_type="image/png,image/jpg,image/jpeg",
+            name="",
+            content_type="image/png,image/jpg,image/jpeg,image/gif",
             content_url=url,
         )
 
@@ -188,10 +186,10 @@ class MyBot(ActivityHandler):
             text="You can select one of the following choices",
             buttons=[
                 CardAction(
-                    type=ActionTypes.im_back, title="1. Continue to use", value="1"
+                    type=ActionTypes.im_back, title="1. Continue learning", value="1"
                 ),
                 CardAction(
-                    type=ActionTypes.im_back, title="2. About us", value="2"
+                    type=ActionTypes.im_back, title="2. Developer", value="2"
                 ),
                 CardAction(
                     type=ActionTypes.im_back, title="3. Quit", value="3"
@@ -203,34 +201,29 @@ class MyBot(ActivityHandler):
         await turn_context.send_activity(reply)
 
     async def _process_option(self, turn_context: TurnContext):
+        '''
+        Process the option of user
+        '''
+
         reply = Activity(type=ActivityTypes.message)
 
         value = turn_context.activity.text[0]
         if value == "1":
-            reply.text = "Thank you to continue using our chatbot. Please type your information again:"
+            reply.text = "Thank you for using AIRS-iBot for learning."
             await turn_context.send_activity(reply)
             self.user_area = ""
             self.user_query = ""
             await self._suggestAnswer_question_1(turn_context)
             
         elif value == "2":
-            reply.text = "The Research Center for Computing and Multimedia Studies promotes \
-                the advancement of education and research in the field of multimedia infrastructure,\
-                while seeking new ways to harness information technology. To that end it conducts\
-                research and development on large-scale information systems and multimedia educational\
-                systems, and supports planning, design, and implementation of multimedia-based educational\
-                 programs and related functions. The Center’s activities include performing comprehensive \
-                research in the areas of large-scale information systems and computational science; conducting\
-                 research and development of educational support systems; fostering the spread of, and providing\
-                 advice on, multimedia education; pursuing research and development of educational curricula and \
-                techniques that make sophisticated use of a wide range of media; \
-                and planning, designing, and supporting related educational programs."
+            reply.text = "Research Center for Computing and Multimedia Studies, Hosei University."
             #reply.attachments = [self._get_internet_attachment()]
             await turn_context.send_activity(reply)
+
         elif value == "3":
             reply.text = "Thank you for using our application."
-            #reply.attachments = [await self._get_upload_attachment(turn_context)]
             await turn_context.send_activity(reply)
+
         else:
             reply.text = "Your input was not recognized, please try again."
             await turn_context.send_activity(reply)
