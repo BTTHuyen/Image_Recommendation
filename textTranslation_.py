@@ -1,0 +1,2 @@
+import pycountry
+pycountry.languages

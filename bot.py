@@ -16,7 +16,7 @@ from botbuilder.schema import (
     ActionTypes,
     SuggestedActions
 )
-from image_search import image_search
+from imageSearch_ import image_search
 
 class MyBot(ActivityHandler):
     # See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
